@@ -10,7 +10,7 @@ try:
     from jeepney.io.blocking import open_dbus_connection
     from shutil import which
 
-    NOTIFY = which('notify-send') # alternatively: from ctypes.util import find_library 
+    NOTIFY = which('notify-send') # alternatively: from ctypes.util import find_library
 
     if NOTIFY:
         logger.info("libnotify found, using it for notifications")
@@ -158,7 +158,7 @@ class LinuxNotifier(BaseNotifier):
                     notification_subtitle,
                     [],
                     {},  # Actions, hints
-                    55,  # expire_timeout (-1 = default)
+                    notification_timeout*1000,  # expire_timeout (-1 = default)
                 ),
             )
             reply = _attempt_to_open_dbus_connection.send_and_get_reply(
