@@ -46,10 +46,11 @@ class LinuxNotifierLibNotify(BaseNotifier):
         notification_subtitle,
         notification_icon,
         notification_audio,
-        notification_timeout = -1,
+        notification_timeout = 100,
         **kwargs,
     ):
         try:
+            print("TEST",notification_timeout)
             notification_title = " " if notification_title == "" else notification_title
             notification_subtitle = (
                 " " if notification_subtitle == "" else notification_subtitle
@@ -74,6 +75,7 @@ class LinuxNotifierLibNotify(BaseNotifier):
 
             if notification_timeout != -1:
                 generated_command.append(f"--expire-time="+str(notification_timeout*1000))
+                print(generated_command)
 
             logger.debug(f"Generated command: {generated_command}")
             if notification_audio:
