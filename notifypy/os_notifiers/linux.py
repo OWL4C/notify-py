@@ -46,6 +46,7 @@ class LinuxNotifierLibNotify(BaseNotifier):
         notification_subtitle,
         notification_icon,
         notification_audio,
+        notification_timeout = -1,
         **kwargs,
     ):
         try:
@@ -70,6 +71,9 @@ class LinuxNotifierLibNotify(BaseNotifier):
 
             if kwargs.get('notification_urgency'):
                 generated_command.extend(["-u", kwargs.get('notification_urgency')])
+
+            if notification_timeout != -1:
+                generated_command.append(f"--expire-time="+str(notification_timeout*1000))
 
             logger.debug(f"Generated command: {generated_command}")
             if notification_audio:
@@ -114,6 +118,7 @@ class LinuxNotifier(BaseNotifier):
         notification_subtitle,
         notification_icon,
         notification_audio,
+        notification_timeout = -1,
         **kwargs,
     ):
         try:
@@ -153,7 +158,7 @@ class LinuxNotifier(BaseNotifier):
                     notification_subtitle,
                     [],
                     {},  # Actions, hints
-                    -1,  # expire_timeout (-1 = default)
+                    55,  # expire_timeout (-1 = default)
                 ),
             )
             reply = _attempt_to_open_dbus_connection.send_and_get_reply(
